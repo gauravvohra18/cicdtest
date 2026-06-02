@@ -6,16 +6,15 @@ metadata:
 spec:
   project: default
   source:
-    # Point this to your actual repository
     repoURL: 'https://github.com/gauravvohra18/cicdtest.git'
     targetRevision: HEAD
-    path: './frontend-pipeline-test'                 # Point to the directory containing your deployment.yaml file
+    path: 'k8s' # FIXED: Pointing Argo CD to your actual k8s directory
   destination:
-    server: 'https://kubernetes.default.svc' # Directs deployment to the same AKS cluster
-    namespace: test-environment              # Target namespace matching your application manifests
+    server: 'https://kubernetes.default.svc'
+    namespace: test-environment
   syncPolicy:
     automated:
-      prune: true      # Automatically removes objects from AKS if deleted from Git
-      selfHeal: true   # Overwrites manual cluster overrides to prevent configuration drift
+      prune: true
+      selfHeal: true
     syncOptions:
-      - CreateNamespace=true                 # Safety step to guarantee namespace creation
+      - CreateNamespace=true
