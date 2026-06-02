@@ -4,14 +4,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: test-environment          # This explicitly provisions the 'vto' namespace in AKS
+  name: test-environment
 
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend-app
-  namespace: test-environment  # <-- Added this line
+  namespace: test-environment
   labels:
     app: frontend-app
 spec:
@@ -26,7 +26,9 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: gauravohra/cicdtest:latest
+        # CHANGE: Replace 'latest' with a specific tag placeholder (e.g., v1.1)
+        # This allows Jenkins' 'sed' command to find and update the tag dynamically.
+        image: gauravohra/cicdtest:v1.1 
         ports:
         - containerPort: 80
         resources:
@@ -41,6 +43,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend-app
+  namespace: test-environment # CHOSEN FIX: Explicitly added namespace to match the deployment
 spec:
   selector:
     app: frontend-app
