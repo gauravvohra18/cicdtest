@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-server-ingress
+  namespace: argocd
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod" # Optional: if using cert-manager in K8s
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS" # Crucial: argocd-server communicates via HTTPS/gRPC
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: argocdtest.clouddeploy.in  # <-- Change this to your domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: argocd-server  # Routes directly to your argocd-server pod
+            port:
+              number: 443        # The internal HTTPS port for the server
+  tls:
+  - hosts:
+    - argocdtest.clouddeploy.in      # <-- Change this to your domain
+    secretName: argocdtest-server-tls
