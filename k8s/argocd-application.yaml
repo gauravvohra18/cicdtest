@@ -9,7 +9,7 @@ spec:
     # Point this to your actual repository
     repoURL: 'https://github.com/gauravvohra18/cicdtest.git'
     targetRevision: HEAD
-    path: '.'                 # Point to the directory containing your deployment.yaml file
+    path: './frontend-pipeline-test'                 # Point to the directory containing your deployment.yaml file
   destination:
     server: 'https://kubernetes.default.svc' # Directs deployment to the same AKS cluster
     namespace: test-environment              # Target namespace matching your application manifests
