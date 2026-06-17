@@ -6,7 +6,28 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: 'https://github.com/gauravvohra18/cicdtest.git'
+    repoURL: 'https://github.com/gauravvohra18/devops.git'
+    targetRevision: HEAD
+    path: 'devops' # repo root, since deployment.yaml lives there directly
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: test-environment
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: visualdemocicd-gitops-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/gauravvohra18/visualdemocicd.git'
     targetRevision: HEAD
     path: 'k8s' # <-- This tells Argo CD to look at your actual k8s folder
   destination:
